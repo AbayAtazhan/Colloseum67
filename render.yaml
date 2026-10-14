@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: swarm-tab-demo
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run contracts:compile && npm run build && npm run build:cloud
+    startCommand: node build/start-cloud.mjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.21.0
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: DEMO_ACCESS_PASSWORD
+        generateValue: true
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
